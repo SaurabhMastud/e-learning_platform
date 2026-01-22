@@ -81,10 +81,10 @@ st.markdown(f"""
         white-space: nowrap !important;
         width: auto !important;
         min-width: max-content !important;
-        padding: 8px 16px !important;
+        padding: 6px 12px !important;
         font-size: 0.9rem !important;
         height: auto !important;
-        min-height: 38px !important;
+        min-height: 34px !important;
         line-height: normal !important;
         background-color: #1e293b !important;
         color: #f8fafc !important;
@@ -398,7 +398,7 @@ def render_code_editor():
         cell_id = cell.get("id", i) # Fallback to i for safety
         # --- 1. GLOBAL TOOLBAR (ONLY ABOVE CELL 1) ---
         if i == 0:
-            col_g1, col_g2, col_g3, col_g4 = st.columns([1.1, 1.5, 1, 1.2], gap="small")
+            col_g1, col_g2, col_g3, col_g4 = st.columns([1.3, 1.8, 1.2, 1.2], gap="small")
             with col_g1:
                 if st.button("➕Cell", key="global_add"):
                     st.session_state.editor_cells.append({"id": time.time(), "input": "", "output": "", "exec_time": 0.0, "status": None})
@@ -562,11 +562,19 @@ with st.sidebar:
     # Disable typing in selectbox - make it dropdown-only
     st.markdown("""
     <style>
-        /* Disable text input in selectbox */
+        /* Completely disable text input in selectbox */
         div[data-testid="stSelectbox"] input {
             pointer-events: none !important;
             caret-color: transparent !important;
             cursor: pointer !important;
+            user-select: none !important;
+            -webkit-user-select: none !important;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
+        }
+        /* Prevent keyboard events */
+        div[data-testid="stSelectbox"] input:focus {
+            outline: none !important;
         }
         /* Make entire selectbox clickable */
         div[data-testid="stSelectbox"] {
@@ -576,10 +584,31 @@ with st.sidebar:
         div[data-testid="stSelectbox"] input::selection {
             background: transparent !important;
         }
+        /* Disable input editing completely */
+        div[data-testid="stSelectbox"] input {
+            -webkit-touch-callout: none !important;
+            -webkit-user-modify: read-only !important;
+        }
     </style>
+    <script>
+        // JavaScript to completely disable keyboard input
+        document.addEventListener('DOMContentLoaded', function() {
+            const observer = new MutationObserver(function(mutations) {
+                const selectInputs = document.querySelectorAll('div[data-testid="stSelectbox"] input');
+                selectInputs.forEach(input => {
+                    input.setAttribute('readonly', 'readonly');
+                    input.addEventListener('keydown', (e) => e.preventDefault());
+                    input.addEventListener('keypress', (e) => e.preventDefault());
+                    input.addEventListener('keyup', (e) => e.preventDefault());
+                    input.addEventListener('input', (e) => e.preventDefault());
+                });
+            });
+            observer.observe(document.body, { childList: true, subtree: true });
+        });
+    </script>
     """, unsafe_allow_html=True)
     
-    ch_selected = st.selectbox("Select Chapter", ch_options, index=curr_idx, label_visibility="collapsed")
+    ch_selected = st.selectbox("Select Chapter", ch_options, index=curr_idx, label_visibility="collapsed", disabled=False, key="chapter_selector")
     st.session_state.current_chapter = ch_selected
     
     st.markdown("---")
@@ -662,15 +691,27 @@ def app_content():
                 "Write the function call to convert this string into a number that supports decimals."
             )
             q1_1 = st.text_input("code: corrected_price = ____('1250.50')", key="q1_1")
+            
+            # Initialize session state for this quiz
+            if 'q1_1_correct' not in st.session_state:
+                st.session_state.q1_1_correct = False
+            
             if st.button("✓ Submit Answer", key="submit_q1_1", type="primary"):
                 if q1_1.strip().lower() == "float":
-                    st.success("Correct! `float` is the right choice for decimal values.")
+                    st.success("✅ Correct! `float` is the right choice for decimal values.")
                     mark_completed("CH1", "1.1", "quiz")
-                    if st.button("Move to Next Topic →"):
-                        st.session_state.ch1_step = "1.2 Operators & Logic"
-                        st.rerun()
+                    st.session_state.q1_1_correct = True
+                    st.rerun()
                 else:
                     st.error("Not quite. Try again! Hint: Which data type handles decimal numbers?")
+                    st.session_state.q1_1_correct = False
+            
+            # Show navigation button if answer is correct
+            if st.session_state.q1_1_correct:
+                if st.button("Move to Next Topic →", key="nav_q1_1", type="secondary"):
+                    st.session_state.ch1_step = "1.2 Operators & Logic"
+                    st.session_state.q1_1_correct = False  # Reset
+                    st.rerun()
     
         elif step == "1.2 Operators & Logic":
             st.markdown("### 🧮 1.2 Operators & Logical Flow")
@@ -701,15 +742,25 @@ def app_content():
                 "Choose the correct logical operator to combine these conditions."
             )
             q1_2 = st.radio("Selection:", ["and", "or", "not"], key="q1_2", index=None)
+            
+            if 'q1_2_correct' not in st.session_state:
+                st.session_state.q1_2_correct = False
+            
             if st.button("✓ Submit Answer", key="submit_q1_2", type="primary"):
                 if q1_2 == "and":
-                    st.success("Correct! Both conditions must be True.")
+                    st.success("✅ Correct! Both conditions must be True.")
                     mark_completed("CH1", "1.2", "quiz")
-                    if st.button("Next: String Mastery →"):
-                        st.session_state.ch1_step = "1.3 String Mastery"
-                        st.rerun()
+                    st.session_state.q1_2_correct = True
+                    st.rerun()
                 else:
                     st.error("Not quite. Think about when BOTH conditions need to be satisfied.")
+                    st.session_state.q1_2_correct = False
+            
+            if st.session_state.q1_2_correct:
+                if st.button("Move to Next Topic →", key="nav_q1_2", type="secondary"):
+                    st.session_state.ch1_step = "1.3 String Mastery"
+                    st.session_state.q1_2_correct = False
+                    st.rerun()
     
         elif step == "1.3 String Mastery":
             st.markdown("### ✍️ 1.3 String Manipulation")
@@ -745,15 +796,25 @@ def app_content():
                 "Which two methods would you chain together? (e.g. name.method1().method2())"
             )
             q1_3 = st.text_input("code: clean_name = raw_name.____().title()", key="q1_3")
+            
+            if 'q1_3_correct' not in st.session_state:
+                st.session_state.q1_3_correct = False
+            
             if st.button("✓ Submit Answer", key="submit_q1_3", type="primary"):
                 if q1_3.strip().lower() == "strip":
-                    st.success("Perfect! `.strip()` removes the spaces, and `.title()` capitalizes the first letters.")
+                    st.success("✅ Perfect! `.strip()` removes the spaces, and `.title()` capitalizes the first letters.")
                     mark_completed("CH1", "1.3", "quiz")
-                    if st.button("Next: Collections →"):
-                        st.session_state.ch1_step = "1.4 Collections"
-                        st.rerun()
+                    st.session_state.q1_3_correct = True
+                    st.rerun()
                 else:
                     st.error("Not quite. Which method removes leading and trailing whitespace?")
+                    st.session_state.q1_3_correct = False
+            
+            if st.session_state.q1_3_correct:
+                if st.button("Move to Next Topic →", key="nav_q1_3", type="secondary"):
+                    st.session_state.ch1_step = "1.4 Collections"
+                    st.session_state.q1_3_correct = False
+                    st.rerun()
     
         elif step == "1.4 Collections":
             st.markdown("### 📚 1.4 Collections: Lists & Dictionaries")
@@ -787,15 +848,25 @@ def app_content():
                 "How would you access the name 'Bob'?"
             )
             q1_4 = st.text_input("code: target = data['users'][0][____]", key="q1_4")
+            
+            if 'q1_4_correct' not in st.session_state:
+                st.session_state.q1_4_correct = False
+            
             if st.button("✓ Submit Answer", key="submit_q1_4", type="primary"):
                 if q1_4.strip() in ["'name'", '"name"']:
-                    st.success("Excellent! You navigated the list inside the dictionary.")
+                    st.success("✅ Excellent! You navigated the list inside the dictionary.")
                     mark_completed("CH1", "1.4", "quiz")
-                    if st.button("Final Chapter Challenge! →"):
-                        st.session_state.ch1_step = "🏆 Chapter 1 Challenge"
-                        st.rerun()
+                    st.session_state.q1_4_correct = True
+                    st.rerun()
                 else:
                     st.error("Not quite. Remember to include quotes around the dictionary key!")
+                    st.session_state.q1_4_correct = False
+            
+            if st.session_state.q1_4_correct:
+                if st.button("Go to Chapter Challenge →", key="nav_q1_4", type="secondary"):
+                    st.session_state.ch1_step = "🏆 Chapter 1 Challenge"
+                    st.session_state.q1_4_correct = False
+                    st.rerun()
     
         elif step == "🏆 Chapter 1 Challenge":
             st.markdown("### 🏆 Chapter 1 Final Task")
