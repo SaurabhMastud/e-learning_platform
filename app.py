@@ -46,94 +46,81 @@ st.set_page_config(page_title="E-Learning", page_icon="🎓", layout="wide")
 with open("style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-# Custom Code Editor Style
+# Custom Code Editor Style with FULL RESPONSIVE DESIGN
 st.markdown(f"""
 <style>
+    /* ========== DESKTOP STYLES (Default) ========== */
     [data-testid="stSidebar"] {{
         width: 380px !important;
         min-width: 380px !important;
     }}
-    .floating-code-btn {{
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 1000;
-        background-color: #5cb9ff;
-        color: white;
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-weight: bold;
-        border: none;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-    }}
-    .floating-code-btn:hover {{
-        background-color: #4da8ee;
-    }}
+    
     [data-testid="stSidebarUserContent"] {{
         padding-top: 20px !important;
         padding-left: 10px !important;
         padding-right: 10px !important;
     }}
+    
+    /* Main content area */
+    .main .block-container {{
+        padding-top: 2rem !important;
+        padding-left: 2rem !important;
+        padding-right: 2rem !important;
+        max-width: 100% !important;
+    }}
+    
     /* Wrap long code/output lines in sidebar */
     [data-testid="stSidebar"] code {{
         white-space: pre-wrap !important;
         word-break: break-word !important;
     }}
-    /* Centered action buttons like Jupyter */
-    .stButton>button[key^="add_after"] {{
-        border-radius: 5px !important;
-        padding: 0px 10px !important;
-        font-size: 0.7rem !important;
-        background-color: #262730 !important;
-        border: 1px solid #464b5d !important;
-    }}
-    /* --- CLEAN INTERFACE & THEME UNIFICATION --- */
-    /* Target all buttons for a unified dark theme */
+    
+    /* --- UNIFIED BUTTON STYLING --- */
     .stButton > button, .stFormSubmitButton > button, button[kind="secondary"], button[kind="primary"] {{
         border-radius: 4px !important;
         white-space: nowrap !important;
         width: auto !important;
         min-width: max-content !important;
-        padding: 4px 12px !important;
-        font-size: 0.82rem !important;
-        height: 32px !important;
+        padding: 8px 16px !important;
+        font-size: 0.9rem !important;
+        height: auto !important;
+        min-height: 38px !important;
         line-height: normal !important;
         background-color: #1e293b !important;
         color: #f8fafc !important;
         border: 1px solid #334155 !important;
         transition: all 0.2s ease !important;
+        cursor: pointer !important;
     }}
+    
     .stButton > button:hover, .stFormSubmitButton > button:hover, button:hover {{
         background-color: #334155 !important;
         border-color: #5cb9ff !important;
         color: #5cb9ff !important;
     }}
-    /* Style the form container to remove the thick white border */
+    
+    /* Form containers */
     [data-testid="stForm"], div[data-testid="stForm"] {{
         border: 1px solid #334155 !important;
         border-radius: 8px !important;
         padding: 15px !important;
         background-color: #0f172a !important;
     }}
-    /* Themed Sidebar Selectbox */
+    
+    /* Selectbox styling */
     div[data-testid="stSelectbox"] > div > div {{
         background-color: #1e293b !important;
         color: white !important;
         border: 1px solid #334155 !important;
     }}
-    /* Hide any ghost buttons from Ace that might peek through */
-    div.stAce button, div[data-testid="stAce"] button {{
-        display: none !important;
-        visibility: hidden !important;
-        height: 0 !important;
-    }}
-    /* Final polish for code editor borders */
+    
+    /* Code editor */
     .ace_editor {{
         border: 1px solid #334155 !important;
         border-radius: 4px !important;
     }}
-    /* UNIFY PROGRESS BAR */
+    
+    /* Progress bar */
     .stProgress > div > div {{
         background-color: rgba(255, 255, 255, 0.05) !important;
         border-radius: 10px !important;
@@ -141,14 +128,16 @@ st.markdown(f"""
     .stProgress > div > div > div > div {{
         background-color: #5cb9ff !important;
     }}
-    /* REMOVE TOP DECORATION WHITE LINE */
+    
+    /* Remove decoration */
     [data-testid="stHeader"] {{
         background: rgba(0,0,0,0) !important;
     }}
     div[data-testid="stDecoration"] {{
         display: none !important;
     }}
-    /* FIX THE THICK WHITE CELL BORDER */
+    
+    /* Ace editor fixes */
     div[data-testid="stAce"] {{
         background-color: transparent !important;
         padding: 0 !important;
@@ -158,16 +147,211 @@ st.markdown(f"""
         border: 1px solid #334155 !important;
         background-color: transparent !important;
     }}
-    /* Dark scrollbar for the sidebar */
-    [data-testid="stSidebar"] ::-webkit-scrollbar {{
-        width: 6px;
+    
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {{
+        width: 8px;
+        height: 8px;
     }}
-    [data-testid="stSidebar"] ::-webkit-scrollbar-thumb {{
+    ::-webkit-scrollbar-thumb {{
         background: #334155;
         border-radius: 10px;
     }}
-    [data-testid="stSidebar"] ::-webkit-scrollbar-track {{
+    ::-webkit-scrollbar-track {{
         background: transparent;
+    }}
+    
+    /* ========== TABLET STYLES (Portrait & Landscape) ========== */
+    @media only screen and (max-width: 1024px) {{
+        [data-testid="stSidebar"] {{
+            width: 300px !important;
+            min-width: 300px !important;
+        }}
+        
+        .main .block-container {{
+            padding-left: 1.5rem !important;
+            padding-right: 1.5rem !important;
+        }}
+        
+        /* Smaller headings on tablets */
+        h1 {{
+            font-size: 1.8rem !important;
+        }}
+        h2 {{
+            font-size: 1.5rem !important;
+        }}
+        h3 {{
+            font-size: 1.2rem !important;
+        }}
+        
+        /* Adjust code editor height */
+        .ace_editor {{
+            min-height: 150px !important;
+        }}
+    }}
+    
+    /* ========== MOBILE STYLES (Phones) ========== */
+    @media only screen and (max-width: 768px) {{
+        /* Collapsible sidebar on mobile */
+        [data-testid="stSidebar"] {{
+            width: 100% !important;
+            min-width: 100% !important;
+        }}
+        
+        [data-testid="stSidebar"][aria-expanded="false"] {{
+            width: 0 !important;
+            min-width: 0 !important;
+        }}
+        
+        /* Mobile content padding */
+        .main .block-container {{
+            padding-top: 1rem !important;
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+        }}
+        
+        /* Mobile typography */
+        h1 {{
+            font-size: 1.5rem !important;
+            line-height: 1.3 !important;
+        }}
+        h2 {{
+            font-size: 1.3rem !important;
+        }}
+        h3 {{
+            font-size: 1.1rem !important;
+        }}
+        p, li, span {{
+            font-size: 0.95rem !important;
+            line-height: 1.6 !important;
+        }}
+        
+        /* Touch-friendly buttons */
+        .stButton > button, .stFormSubmitButton > button {{
+            min-height: 44px !important;
+            padding: 10px 20px !important;
+            font-size: 1rem !important;
+            width: 100% !important;
+            margin-bottom: 8px !important;
+        }}
+        
+        /* Stack columns vertically on mobile */
+        [data-testid="column"] {{
+            width: 100% !important;
+            min-width: 100% !important;
+            margin-bottom: 1rem !important;
+        }}
+        
+        /* Code blocks */
+        pre, code {{
+            font-size: 0.85rem !important;
+            overflow-x: auto !important;
+        }}
+        
+        /* Text inputs */
+        input[type="text"], textarea {{
+            font-size: 1rem !important;
+            min-height: 44px !important;
+        }}
+        
+        /* Radio buttons and checkboxes - larger touch targets */
+        [data-testid="stRadio"] label {{
+            padding: 10px !important;
+            font-size: 1rem !important;
+        }}
+        
+        /* Sliders */
+        .stSlider {{
+            padding: 10px 0 !important;
+        }}
+        
+        /* Code editor on mobile */
+        .ace_editor {{
+            min-height: 200px !important;
+            font-size: 0.9rem !important;
+        }}
+        
+        /* Tables responsive */
+        table {{
+            display: block !important;
+            overflow-x: auto !important;
+            font-size: 0.85rem !important;
+        }}
+        
+        /* Lesson cards */
+        .lesson-card, .exercise-box {{
+            padding: 15px !important;
+            margin: 10px 0 !important;
+        }}
+        
+        /* Form spacing */
+        [data-testid="stForm"] {{
+            padding: 12px !important;
+        }}
+    }}
+    
+    /* ========== SMALL MOBILE (iPhone SE, etc.) ========== */
+    @media only screen and (max-width: 375px) {{
+        h1 {{
+            font-size: 1.3rem !important;
+        }}
+        h2 {{
+            font-size: 1.15rem !important;
+        }}
+        h3 {{
+            font-size: 1rem !important;
+        }}
+        
+        .main .block-container {{
+            padding-left: 0.75rem !important;
+            padding-right: 0.75rem !important;
+        }}
+        
+        .stButton > button {{
+            font-size: 0.95rem !important;
+            padding: 8px 16px !important;
+        }}
+    }}
+    
+    /* ========== LANDSCAPE MOBILE ========== */
+    @media only screen and (max-width: 896px) and (orientation: landscape) {{
+        .main .block-container {{
+            padding-top: 0.5rem !important;
+        }}
+        
+        h1 {{
+            font-size: 1.4rem !important;
+        }}
+        
+        .ace_editor {{
+            min-height: 150px !important;
+        }}
+    }}
+    
+    /* ========== LARGE DESKTOP ========== */
+    @media only screen and (min-width: 1400px) {{
+        .main .block-container {{
+            max-width: 1200px !important;
+            margin: 0 auto !important;
+        }}
+    }}
+    
+    /* ========== ACCESSIBILITY & TOUCH IMPROVEMENTS ========== */
+    /* Larger tap targets for all interactive elements */
+    button, a, input, select, textarea {{
+        min-height: 38px !important;
+        touch-action: manipulation !important;
+    }}
+    
+    /* Focus states for keyboard navigation */
+    button:focus, input:focus, select:focus, textarea:focus {{
+        outline: 2px solid #5cb9ff !important;
+        outline-offset: 2px !important;
+    }}
+    
+    /* Prevent text selection issues on touch */
+    .stButton > button {{
+        -webkit-tap-highlight-color: rgba(92, 185, 255, 0.3) !important;
     }}
 </style>
 """, unsafe_allow_html=True)
