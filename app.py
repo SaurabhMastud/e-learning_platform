@@ -559,6 +559,26 @@ with st.sidebar:
     except:
         curr_idx = 0
         
+    # Disable typing in selectbox - make it dropdown-only
+    st.markdown("""
+    <style>
+        /* Disable text input in selectbox */
+        div[data-testid="stSelectbox"] input {
+            pointer-events: none !important;
+            caret-color: transparent !important;
+            cursor: pointer !important;
+        }
+        /* Make entire selectbox clickable */
+        div[data-testid="stSelectbox"] {
+            cursor: pointer !important;
+        }
+        /* Hide the blinking cursor */
+        div[data-testid="stSelectbox"] input::selection {
+            background: transparent !important;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+    
     ch_selected = st.selectbox("Select Chapter", ch_options, index=curr_idx, label_visibility="collapsed")
     st.session_state.current_chapter = ch_selected
     
@@ -642,12 +662,15 @@ def app_content():
                 "Write the function call to convert this string into a number that supports decimals."
             )
             q1_1 = st.text_input("code: corrected_price = ____('1250.50')", key="q1_1")
-            if q1_1.strip().lower() == "float":
-                st.success("Correct! `float` is the right choice for decimal values.")
-                mark_completed("CH1", "1.1", "quiz")
-                if st.button("Move to Next Topic →"):
-                    st.session_state.ch1_step = "1.2 Operators & Logic"
-                    st.rerun()
+            if st.button("✓ Submit Answer", key="submit_q1_1", type="primary"):
+                if q1_1.strip().lower() == "float":
+                    st.success("Correct! `float` is the right choice for decimal values.")
+                    mark_completed("CH1", "1.1", "quiz")
+                    if st.button("Move to Next Topic →"):
+                        st.session_state.ch1_step = "1.2 Operators & Logic"
+                        st.rerun()
+                else:
+                    st.error("Not quite. Try again! Hint: Which data type handles decimal numbers?")
     
         elif step == "1.2 Operators & Logic":
             st.markdown("### 🧮 1.2 Operators & Logical Flow")
@@ -678,12 +701,15 @@ def app_content():
                 "Choose the correct logical operator to combine these conditions."
             )
             q1_2 = st.radio("Selection:", ["and", "or", "not"], key="q1_2", index=None)
-            if q1_2 == "and":
-                st.success("Correct! Both conditions must be True.")
-                mark_completed("CH1", "1.2", "quiz")
-                if st.button("Next: String Mastery →"):
-                    st.session_state.ch1_step = "1.3 String Mastery"
-                    st.rerun()
+            if st.button("✓ Submit Answer", key="submit_q1_2", type="primary"):
+                if q1_2 == "and":
+                    st.success("Correct! Both conditions must be True.")
+                    mark_completed("CH1", "1.2", "quiz")
+                    if st.button("Next: String Mastery →"):
+                        st.session_state.ch1_step = "1.3 String Mastery"
+                        st.rerun()
+                else:
+                    st.error("Not quite. Think about when BOTH conditions need to be satisfied.")
     
         elif step == "1.3 String Mastery":
             st.markdown("### ✍️ 1.3 String Manipulation")
@@ -719,12 +745,15 @@ def app_content():
                 "Which two methods would you chain together? (e.g. name.method1().method2())"
             )
             q1_3 = st.text_input("code: clean_name = raw_name.____().title()", key="q1_3")
-            if q1_3.strip().lower() == "strip":
-                st.success("Perfect! `.strip()` removes the spaces, and `.title()` capitalizes the first letters.")
-                mark_completed("CH1", "1.3", "quiz")
-                if st.button("Next: Collections →"):
-                    st.session_state.ch1_step = "1.4 Collections"
-                    st.rerun()
+            if st.button("✓ Submit Answer", key="submit_q1_3", type="primary"):
+                if q1_3.strip().lower() == "strip":
+                    st.success("Perfect! `.strip()` removes the spaces, and `.title()` capitalizes the first letters.")
+                    mark_completed("CH1", "1.3", "quiz")
+                    if st.button("Next: Collections →"):
+                        st.session_state.ch1_step = "1.4 Collections"
+                        st.rerun()
+                else:
+                    st.error("Not quite. Which method removes leading and trailing whitespace?")
     
         elif step == "1.4 Collections":
             st.markdown("### 📚 1.4 Collections: Lists & Dictionaries")
@@ -758,12 +787,15 @@ def app_content():
                 "How would you access the name 'Bob'?"
             )
             q1_4 = st.text_input("code: target = data['users'][0][____]", key="q1_4")
-            if q1_4.strip() in ["'name'", '"name"']:
-                st.success("Excellent! You navigated the list inside the dictionary.")
-                mark_completed("CH1", "1.4", "quiz")
-                if st.button("Final Chapter Challenge! →"):
-                    st.session_state.ch1_step = "🏆 Chapter 1 Challenge"
-                    st.rerun()
+            if st.button("✓ Submit Answer", key="submit_q1_4", type="primary"):
+                if q1_4.strip() in ["'name'", '"name"']:
+                    st.success("Excellent! You navigated the list inside the dictionary.")
+                    mark_completed("CH1", "1.4", "quiz")
+                    if st.button("Final Chapter Challenge! →"):
+                        st.session_state.ch1_step = "🏆 Chapter 1 Challenge"
+                        st.rerun()
+                else:
+                    st.error("Not quite. Remember to include quotes around the dictionary key!")
     
         elif step == "🏆 Chapter 1 Challenge":
             st.markdown("### 🏆 Chapter 1 Final Task")
@@ -843,12 +875,15 @@ def app_content():
                 "Which method provides the count of non-null values for every column?"
             )
             q2_1 = st.radio("Selection:", ["df.head()", "df.info()", "df.describe()"], key="q2_1", index=None)
-            if q2_1 == "df.info()":
-                st.success("Correct! `info()` reveals the 'Non-Null Count' for each column.")
-                mark_completed("CH2", "2.1", "quiz")
-                if st.button("Next: API Connection →"):
-                    st.session_state.ch2_step = "2.2 API Connection"
-                    st.rerun()
+            if st.button("✓ Submit Answer", key="submit_q2_1", type="primary"):
+                if q2_1 == "df.info()":
+                    st.success("Correct! `info()` reveals the 'Non-Null Count' for each column.")
+                    mark_completed("CH2", "2.1", "quiz")
+                    if st.button("Next: API Connection →"):
+                        st.session_state.ch2_step = "2.2 API Connection"
+                        st.rerun()
+                else:
+                    st.error("Not quite. Which method shows detailed column information including non-null counts?")
     
         elif step == "2.2 API Connection":
             st.markdown("### 🌐 2.2 Fetching Live Data (APIs)")
@@ -875,12 +910,15 @@ def app_content():
                 "What does a 404 error usually mean?"
             )
             q2_2 = st.radio("Selection:", ["Success", "Authentication Link Broken", "The resource/URL does not exist"], key="q2_2", index=None)
-            if q2_2 == "The resource/URL does not exist":
-                st.success("Correct! 404 is 'Not Found'.")
-                mark_completed("CH2", "2.2", "quiz")
-                if st.button("Final Chapter Challenge! →"):
-                    st.session_state.ch2_step = "🏆 Chapter 2 Challenge"
-                    st.rerun()
+            if st.button("✓ Submit Answer", key="submit_q2_2", type="primary"):
+                if q2_2 == "The resource/URL does not exist":
+                    st.success("Correct! 404 is 'Not Found'.")
+                    mark_completed("CH2", "2.2", "quiz")
+                    if st.button("Final Chapter Challenge! →"):
+                        st.session_state.ch2_step = "🏆 Chapter 2 Challenge"
+                        st.rerun()
+                else:
+                    st.error("Not quite. What does a 404 status code typically mean in HTTP?")
     
         elif step == "🏆 Chapter 2 Challenge":
             st.markdown("### 🏆 Chapter 2 Final Task")
@@ -947,12 +985,15 @@ def app_content():
                 "Choose the correct regex pattern to find all sequences of digits."
             )
             q3_1 = st.radio("Selection:", [r"\w+", r"\d+", r"\s+"], key="q3_1", index=None)
-            if q3_1 == r"\d+":
-                st.success("Correct! `\d+` matches one or more consecutive digits.")
-                mark_completed("CH3", "3.1", "quiz")
-                if st.button("Next: Web Scraping →"):
-                    st.session_state.ch3_step = "3.2 Web Scraping"
-                    st.rerun()
+            if st.button("✓ Submit Answer", key="submit_q3_1", type="primary"):
+                if q3_1 == r"\d+":
+                    st.success("Correct! `\d+` matches one or more consecutive digits.")
+                    mark_completed("CH3", "3.1", "quiz")
+                    if st.button("Next: Web Scraping →"):
+                        st.session_state.ch3_step = "3.2 Web Scraping"
+                        st.rerun()
+                else:
+                    st.error("Not quite. Which regex pattern specifically matches digits?")
     
         elif step == "3.2 Web Scraping":
             st.markdown("### 🕸️ 3.2 Web Scraping with BeautifulSoup")
@@ -979,12 +1020,15 @@ def app_content():
                 "How do you specify the class in the `.find()` method?"
             )
             q3_2 = st.radio("Selection:", ["class='price-tag'", "class_='price-tag'", "id='price-tag'"], key="q3_2", index=None)
-            if q3_2 == "class_='price-tag'":
-                st.success("Exactly! We use `class_` because `class` is a reserved word in Python.")
-                mark_completed("CH3", "3.2", "quiz")
-                if st.button("Final Chapter Challenge! →"):
-                    st.session_state.ch3_step = "🏆 Chapter 3 Challenge"
-                    st.rerun()
+            if st.button("✓ Submit Answer", key="submit_q3_2", type="primary"):
+                if q3_2 == "class_='price-tag'":
+                    st.success("Exactly! We use `class_` because `class` is a reserved word in Python.")
+                    mark_completed("CH3", "3.2", "quiz")
+                    if st.button("Final Chapter Challenge! →"):
+                        st.session_state.ch3_step = "🏆 Chapter 3 Challenge"
+                        st.rerun()
+                else:
+                    st.error("Not quite. Remember that 'class' is a keyword in Python, so BeautifulSoup uses a variation.")
     
         elif step == "🏆 Chapter 3 Challenge":
             st.markdown("### 🏆 Chapter 3 Final Task")
@@ -1048,12 +1092,15 @@ def app_content():
                 "Choose the correct SQL clause to apply this filter."
             )
             q4_1 = st.radio("Selection:", ["LIMIT 50", "WHERE amount < 50", "ORDER BY 50"], key="q4_1", index=None)
-            if q4_1 == "WHERE amount < 50":
-                st.success("Correct! `WHERE` is the universal filter in SQL.")
-                mark_completed("CH4", "4.1", "quiz")
-                if st.button("Next: Joins & Keys →"):
-                    st.session_state.ch4_step = "4.2 Joins & Keys"
-                    st.rerun()
+            if st.button("✓ Submit Answer", key="submit_q4_1", type="primary"):
+                if q4_1 == "WHERE amount < 50":
+                    st.success("Correct! `WHERE` is the universal filter in SQL.")
+                    mark_completed("CH4", "4.1", "quiz")
+                    if st.button("Next: Joins & Keys →"):
+                        st.session_state.ch4_step = "4.2 Joins & Keys"
+                        st.rerun()
+                else:
+                    st.error("Not quite. Which SQL clause is used to filter rows based on conditions?")
     
         elif step == "4.2 Joins & Keys":
             st.markdown("### 🔗 4.2 Relationships & Joins")
@@ -1082,12 +1129,15 @@ def app_content():
                 "Which SQL keyword is used to merge these two tables together?"
             )
             q4_2 = st.text_input("code: SELECT * FROM Products ____ Orders ON ...", key="q4_2")
-            if q4_2.strip().upper() == "JOIN":
-                st.success("Correct! `JOIN` is how we combine relational data.")
-                mark_completed("CH4", "4.2", "quiz")
-                if st.button("Final Chapter Challenge! →"):
-                    st.session_state.ch4_step = "🏆 Chapter 4 Challenge"
-                    st.rerun()
+            if st.button("✓ Submit Answer", key="submit_q4_2", type="primary"):
+                if q4_2.strip().upper() == "JOIN":
+                    st.success("Correct! `JOIN` is how we combine relational data.")
+                    mark_completed("CH4", "4.2", "quiz")
+                    if st.button("Final Chapter Challenge! →"):
+                        st.session_state.ch4_step = "🏆 Chapter 4 Challenge"
+                        st.rerun()
+                else:
+                    st.error("Not quite. What SQL keyword combines data from multiple tables?")
     
         elif step == "🏆 Chapter 4 Challenge":
             st.markdown("### 🏆 Chapter 4 Final Task")
@@ -1141,12 +1191,15 @@ def app_content():
                 "Which chart is most effective for showing this time-series trend?"
             )
             q5_1 = st.radio("Selection:", ["Bar Chart", "Line Plot", "Pie Chart"], key="q5_1", index=None)
-            if q5_1 == "Line Plot":
-                st.success("Correct! Line plots emphasize the flow and change of data over time.")
-                mark_completed("CH5", "5.1", "quiz")
-                if st.button("Next: Seaborn Styling →"):
-                    st.session_state.ch5_step = "5.2 Seaborn Styling"
-                    st.rerun()
+            if st.button("✓ Submit Answer", key="submit_q5_1", type="primary"):
+                if q5_1 == "Line Plot":
+                    st.success("Correct! Line plots emphasize the flow and change of data over time.")
+                    mark_completed("CH5", "5.1", "quiz")
+                    if st.button("Next: Seaborn Styling →"):
+                        st.session_state.ch5_step = "5.2 Seaborn Styling"
+                        st.rerun()
+                else:
+                    st.error("Not quite. Which chart type is best for showing trends over time?")
     
         elif step == "5.2 Seaborn Styling":
             st.markdown("### 🎨 5.2 Aesthetics & Clarity")
@@ -1174,12 +1227,15 @@ def app_content():
                 "Which matplotlib function would you use to add a label to the Y-axis?"
             )
             q5_2 = st.text_input("code: plt.____('Revenue In USD')", key="q5_2")
-            if q5_2.strip().lower() == "ylabel":
-                st.success("Exactly! `plt.ylabel()` adds the vertical context.")
-                mark_completed("CH5", "5.2", "quiz")
-                if st.button("Final Chapter Challenge! →"):
-                    st.session_state.ch5_step = "🏆 Chapter 5 Challenge"
-                    st.rerun()
+            if st.button("✓ Submit Answer", key="submit_q5_2", type="primary"):
+                if q5_2.strip().lower() == "ylabel":
+                    st.success("Exactly! `plt.ylabel()` adds the vertical context.")
+                    mark_completed("CH5", "5.2", "quiz")
+                    if st.button("Final Chapter Challenge! →"):
+                        st.session_state.ch5_step = "🏆 Chapter 5 Challenge"
+                        st.rerun()
+                else:
+                    st.error("Not quite. Which matplotlib function adds a label to the Y-axis?")
     
         elif step == "🏆 Chapter 5 Challenge":
             st.markdown("### 🏆 Chapter 5 Final Task")
@@ -1242,12 +1298,15 @@ def app_content():
         print(f"XML is broken: {e}")
             """)
             q6_1 = st.text_input("Fill in the exception class name:", key="q6_1")
-            if q6_1 == "ParseError":
-                st.success("Correct! ET.ParseError specifically catches malformed XML syntax.")
-                mark_completed("CH6", "6.1", "quiz")
-                if st.button("Next: NumPy Analytics →"):
-                    st.session_state.ch6_step = "6.2 NumPy Analytics"
-                    st.rerun()
+            if st.button("✓ Submit Answer", key="submit_q6_1", type="primary"):
+                if q6_1 == "ParseError":
+                    st.success("Correct! ET.ParseError specifically catches malformed XML syntax.")
+                    mark_completed("CH6", "6.1", "quiz")
+                    if st.button("Next: NumPy Analytics →"):
+                        st.session_state.ch6_step = "6.2 NumPy Analytics"
+                        st.rerun()
+                else:
+                    st.error("Not quite. What exception does ElementTree raise for malformed XML?")
     
         elif step == "6.2 NumPy Analytics":
             st.markdown("### 📊 6.2 Data Structure Manipulation")
@@ -1273,12 +1332,15 @@ def app_content():
                 "Which logical combination counts non-NaN values?"
             )
             q6_2 = st.radio("Selection:", ["np.sum(arr == np.nan)", "np.sum(~np.isnan(arr))", "len(arr)"], key="q6_2", index=None)
-            if q6_2 == "np.sum(~np.isnan(arr))":
-                st.success("Correct! `~np.isnan(arr)` creates a boolean mask of valid values, and `sum()` counts the True entries.")
-                mark_completed("CH6", "6.2", "quiz")
-                if st.button("Next: Regex Challenge →"):
-                    st.session_state.ch6_step = "6.3 Regex Challenge"
-                    st.rerun()
+            if st.button("✓ Submit Answer", key="submit_q6_2", type="primary"):
+                if q6_2 == "np.sum(~np.isnan(arr))":
+                    st.success("Correct! `~np.isnan(arr)` creates a boolean mask of valid values, and `sum()` counts the True entries.")
+                    mark_completed("CH6", "6.2", "quiz")
+                    if st.button("Next: Regex Challenge →"):
+                        st.session_state.ch6_step = "6.3 Regex Challenge"
+                        st.rerun()
+                else:
+                    st.error("Not quite. How do you count non-NaN values in a NumPy array?")
     
         elif step == "6.3 Regex Challenge":
             st.markdown("### 🔍 6.3 Advanced Pattern Extraction")
@@ -1303,12 +1365,15 @@ def app_content():
                 "Which pattern is most accurate?"
             )
             q6_3 = st.radio("Selection:", [r"@\w+", r"@\d+", r"#\w+"], key="q6_3", index=None)
-            if q6_3 == r"@\w+":
-                st.success("Correct! `\w` matches letters, digits, and underscores.")
-                mark_completed("CH6", "6.3", "quiz")
-                if st.button("Go to Mock Exam! →"):
-                    st.session_state.ch6_step = "🏆 CA Mock Exam"
-                    st.rerun()
+            if st.button("✓ Submit Answer", key="submit_q6_3", type="primary"):
+                if q6_3 == r"@\w+":
+                    st.success("Correct! `\w` matches letters, digits, and underscores.")
+                    mark_completed("CH6", "6.3", "quiz")
+                    if st.button("Go to Mock Exam! →"):
+                        st.session_state.ch6_step = "🏆 CA Mock Exam"
+                        st.rerun()
+                else:
+                    st.error("Not quite. Which pattern matches @ followed by word characters?")
     
         elif step == "🏆 CA Mock Exam":
             st.markdown("### 🏆 Comprehensive CA Mock Exam")
@@ -1354,9 +1419,12 @@ def app_content():
             "Use the pandas function to read 'sales_data.csv'."
         )
         p_ex1 = st.text_input("code: df = pd.____('sales_data.csv')", key="p_ex1")
-        if p_ex1 == "read_csv":
-            st.success("Step 1 Complete!")
-            mark_completed("PROJ", "FINAL", "ex1")
+        if st.button("✓ Submit Step 1", key="submit_p_ex1", type="primary"):
+            if p_ex1 == "read_csv":
+                st.success("Step 1 Complete!")
+                mark_completed("PROJ", "FINAL", "ex1")
+            else:
+                st.error("Not quite. Which pandas function reads CSV files?")
             
             # PROJECT STEP 2 (Visible only after Step 1)
             st.divider()
@@ -1368,9 +1436,12 @@ def app_content():
                 "Complete the regex pattern to find 'SAVE' followed by two digits."
             )
             p_ex2 = st.text_input("code: pattern = r'SAVE\\____'", key="p_ex2")
-            if p_ex2 == "d{2}":
-                st.success("Step 2 Complete! You've successfully parsed the voucher codes.")
-                mark_completed("PROJ", "FINAL", "ex2")
+            if st.button("✓ Submit Step 2", key="submit_p_ex2", type="primary"):
+                if p_ex2 == "d{2}":
+                    st.success("Step 2 Complete! You've successfully parsed the voucher codes.")
+                    mark_completed("PROJ", "FINAL", "ex2")
+                else:
+                    st.error("Not quite. Use regex to match exactly 2 digits.")
                 
                 # PROJECT STEP 3
                 st.divider()
@@ -1382,18 +1453,21 @@ def app_content():
                 </div>
                 """, unsafe_allow_html=True)
                 p_ex3 = st.radio("Select the diagnostic plot:", ["Pie Chart", "Scatter Plot", "Histogram"], key="p_ex3", index=None)
-                if p_ex3 == "Scatter Plot":
-                    st.success("🏆 Project Complete! Scatter plots are perfect for seeing how one variable influences another.")
-                    mark_completed("PROJ", "FINAL", "ex3")
-                    st.balloons()
-                    st.markdown("""
-                    ### 🎉 Congratulations!
-                    You have completed the **APDV Mastery Course**. You now have the skills to:
-                    - Extract data from multiple sources.
-                    - Clean text with Regex.
-                    - Query SQL databases.
-                    - Visualize complex business trends.
-                    """)
+                if st.button("✓ Submit Step 3", key="submit_p_ex3", type="primary"):
+                    if p_ex3 == "Scatter Plot":
+                        st.success("🏆 Project Complete! Scatter plots are perfect for seeing how one variable influences another.")
+                        mark_completed("PROJ", "FINAL", "ex3")
+                        st.balloons()
+                        st.markdown("""
+                        ### 🎉 Congratulations!
+                        You have completed the **APDV Mastery Course**. You now have the skills to:
+                        - Extract data from multiple sources.
+                        - Clean text with Regex.
+                        - Query SQL databases.
+                        - Visualize complex business trends.
+                        """)
+                    else:
+                        st.error("Not quite. Which plot shows the relationship between two variables?")
     
 # --- MAIN LAYOUT ---
 main_col = st.container()
