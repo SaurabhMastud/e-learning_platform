@@ -1,0 +1,80 @@
+/* DataCamp Inspired Theme for APDV Course */
+
+:root {
+    --primary: #5cb9ff; /* Blue for key actions */
+    --accent: #ffcc00;  /* Yellow for instructional highlights */
+    --bg-main: #0a0e14;
+    --card-bg: #151b24;
+    --border: #2e3c4e;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --success: #00ff88;
+    --error: #ff4d4d;
+}
+
+.stApp {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+}
+
+/* Sidebar Styling */
+[data-testid="stSidebar"] {
+    background-color: #0f172a !important;
+    border-right: 1px solid var(--border);
+}
+
+/* Lesson Summary Card */
+.lesson-card {
+    background: var(--card-bg);
+    border-left: 5px solid var(--primary);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+/* Exercise Container */
+.exercise-box {
+    background: #1e293b;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-top: 15px;
+}
+
+.exercise-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    color: var(--accent);
+    font-weight: 600;
+}
+
+/* Status Badges */
+.badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.badge-beginner { background: #10b981; color: white; }
+.badge-intermediate { background: #f59e0b; color: white; }
+
+/* Custom Headings */
+h1 { color: var(--primary) !important; font-size: 2.2rem !important; margin-bottom: 0.5rem !important; }
+h2 { color: var(--accent) !important; font-size: 1.5rem !important; }
+h3 { color: var(--text-primary) !important; font-size: 1.2rem !important; }
+
+/* Code placeholders */
+.code-blank {
+    color: var(--accent);
+    font-weight: bold;
+    border-bottom: 2px solid var(--accent);
+}
+
+/* Progress Bar */
+.stProgress > div > div > div > div {
+    background-color: var(--primary);
+}

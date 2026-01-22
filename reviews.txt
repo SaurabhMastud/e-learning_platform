@@ -1,0 +1,25 @@
+R001 | 5 | Love the product! #quality #value
+R002 | 3 | Delivery was slow... @support please check. #delivery
+R003 | NA | Not sure yet, will update later. @friend
+R004 | 4 | Great build quality, but packaging was damaged. #quality #packaging
+R005 | 1 | Terrible service, item never arrived!! @support #delivery #angry
+R006 | 5 | Arrived earlier than expected, super happy :) #delivery #fast
+R007 | 2 | Product is okay, but not as described on the website. #description
+R008 | 5 | Absolutely love it, already recommended to @alice and @bob. #quality #recommend
+R009 | 4 | Good value for money. #value
+R010 | NA | Received the wrong colour, waiting for response from @support. #issue
+R011 | 3 | Average experience, nothing special. #neutral
+R012 | 5 | Works perfectly with my old laptop. #compatibility #quality
+R013 | 2 | Manual was confusing and missing steps. #documentation
+R014 | 4 | Customer support was helpful on chat. Thanks @support! #service
+R015 | 1 | Item stopped working after two days!!! #broken #quality
+R016 | 5 | Smooth ordering process and clear tracking updates. #delivery #ux
+R017 | 3 | Still testing the features, will update. @tester #experimental
+R018 | 4 | Nicely packed and eco-friendly materials. #packaging #green
+R019 | NA | I accidentally ordered two, trying to cancel one. @support #order
+R020 | 2 | Late delivery and no updates for a week. #delivery #late
+R021 | 5 | Fantastic sound quality on these headphones. #audio #quality
+R022 | 4 | Setup was easy, app interface is clean. #setup #ux
+R023 | 1 | Received a used item with scratches. #quality #complaint
+R024 | 3 | Battery life is decent but could be better. #battery
+R025 | 4 | Good product overall, would buy again. #value #recommend
