@@ -701,7 +701,6 @@ def app_content():
                     st.success("✅ Correct! `float` is the right choice for decimal values.")
                     mark_completed("CH1", "1.1", "quiz")
                     st.session_state.q1_1_correct = True
-                    st.rerun()
                 else:
                     st.error("Not quite. Try again! Hint: Which data type handles decimal numbers?")
                     st.session_state.q1_1_correct = False
@@ -751,7 +750,6 @@ def app_content():
                     st.success("✅ Correct! Both conditions must be True.")
                     mark_completed("CH1", "1.2", "quiz")
                     st.session_state.q1_2_correct = True
-                    st.rerun()
                 else:
                     st.error("Not quite. Think about when BOTH conditions need to be satisfied.")
                     st.session_state.q1_2_correct = False
@@ -805,7 +803,6 @@ def app_content():
                     st.success("✅ Perfect! `.strip()` removes the spaces, and `.title()` capitalizes the first letters.")
                     mark_completed("CH1", "1.3", "quiz")
                     st.session_state.q1_3_correct = True
-                    st.rerun()
                 else:
                     st.error("Not quite. Which method removes leading and trailing whitespace?")
                     st.session_state.q1_3_correct = False
@@ -857,7 +854,6 @@ def app_content():
                     st.success("✅ Excellent! You navigated the list inside the dictionary.")
                     mark_completed("CH1", "1.4", "quiz")
                     st.session_state.q1_4_correct = True
-                    st.rerun()
                 else:
                     st.error("Not quite. Remember to include quotes around the dictionary key!")
                     st.session_state.q1_4_correct = False
