@@ -643,6 +643,11 @@ def app_content():
                 <p style="color: #ffcc00; font-weight: bold;">Select "CH 1: Python Foundations" in the sidebar to begin!</p>
             </div>
             """, unsafe_allow_html=True)
+            
+            if st.button("Start Chapter 1 →", type="primary"):
+                st.session_state.current_chapter = "CH 1: Python Foundations"
+                st.session_state.ch1_step = "1.1 Scalar Types"
+                st.rerun()
     
     # --- CHAPTER 1: FOUNDATIONS ---
     elif st.session_state.current_chapter == "CH 1: Python Foundations":
@@ -893,6 +898,11 @@ def app_content():
                         st.success("🎊 AMAZING! You've combined everything from Chapter 1.")
                         st.balloons()
                         mark_completed("CH1", "TASK", "final")
+                        
+                        if st.button("Move to Chapter 2 →", type="primary"):
+                            st.session_state.current_chapter = "CH 2: Data Ingestion (ETL)"
+                            st.session_state.ch2_step = "2.1 pandas I/O"
+                            st.rerun()
                     else:
                         st.error("Not quite. Remember to use `.strip()`, `.split('|')`, and `float()`.")
     
@@ -1007,6 +1017,11 @@ def app_content():
                     st.success("🎉 HEROIC! You've mastered Data Ingestion.")
                     st.balloons()
                     mark_completed("CH2", "TASK", "final")
+                    
+                    if st.button("Move to Chapter 3 →", type="primary"):
+                        st.session_state.current_chapter = "CH 3: Data Cleaning"
+                        st.session_state.ch3_step = "3.1 Regex Mastery"
+                        st.rerun()
                 else:
                     st.error("Check your code! Did you use `read_csv` and `describe()`?")
     
@@ -1116,6 +1131,11 @@ def app_content():
                     st.success("🎉 SPOT ON! Your cleaning skills are top-tier.")
                     st.balloons()
                     mark_completed("CH3", "TASK", "final")
+                    
+                    if st.button("Move to Chapter 4 →", type="primary"):
+                        st.session_state.current_chapter = "CH 4: SQL Management"
+                        st.session_state.ch4_step = "4.1 SQL Basics"
+                        st.rerun()
                 else:
                     st.error("Try again! Make sure to escape the dollar sign using `\\$` in your pattern.")
     
@@ -1223,6 +1243,11 @@ def app_content():
                     st.success("🎉 DATABASE MASTER! You've conquered SQL.")
                     st.balloons()
                     mark_completed("CH4", "TASK", "final")
+                    
+                    if st.button("Move to Chapter 5 →", type="primary"):
+                        st.session_state.current_chapter = "CH 5: Visual Insights"
+                        st.session_state.ch5_step = "5.1 Plot Selection"
+                        st.rerun()
                 else:
                     st.error("Check your syntax! Did you use SELECT, FROM, and WHERE?")
     
@@ -1321,6 +1346,11 @@ def app_content():
                     st.success("🎉 VIZ WIZARD! Your reports will be legendary.")
                     st.balloons()
                     mark_completed("CH5", "TASK", "final")
+                    
+                    if st.button("Move to Chapter 6 →", type="primary"):
+                        st.session_state.current_chapter = "CH 6: CA Practice Lab"
+                        st.session_state.ch6_step = "6.1 XML Mastery"
+                        st.rerun()
                 else:
                     st.error("Try again! Use `sns.lineplot()` and `plt.title()`.")
     
@@ -1462,6 +1492,10 @@ def app_content():
                     st.success("🎊 CA COMPLETE! You've matched the logic from the practice guide.")
                     st.balloons()
                     mark_completed("CH6", "TASK", "final")
+                    
+                    if st.button("Start Final Capstone →", type="primary"):
+                         st.session_state.current_chapter = "Final Project"
+                         st.rerun()
                 else:
                     st.error("Check your logic! You need to split the line, use regex for '#', and count results.")
     
